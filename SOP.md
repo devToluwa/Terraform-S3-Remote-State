@@ -1,4 +1,4 @@
-# Standard Operating Procedure - Terraform Remote State Setup
+# SOP - Terraform Remote State Setup
 
 ## Initial Setup
 
@@ -37,18 +37,24 @@
 ```bash
 aws s3 cp s3://YOUR-BUCKET-NAME/project24/terraform.tfstate -
 ```
-Should display the JSON state file contents.
+
+<img src="screenshots/s3-bucket.png" width="600" alt="S3 Bucket"/>
+Displays the JSON state file contents.
 
 ### Verify versioning is enabled
 ```bash
-aws s3api list-object-versions --bucket YOUR-BUCKET-NAME --prefix project24/terraform.tfstate
+aws s3api list-object-versions --bucket YOUR-BUCKET-NAME --prefix project24/terraform.tfstate --no-cli-pager
 ```
-Should show version history of the state file.
+
+<img src="screenshots/state-file-versioning.png" width="600" alt="State File Versioning"/>
+Shows version history of the state file.
 
 ### Verify DynamoDB table exists
 ```bash
-aws dynamodb describe-table --table-name terraform-state-lock
+aws dynamodb describe-table --table-name terraform-state-lock --no-cli-pager
 ```
+
+<img src="screenshots/dynamodb-table.png" width="600" alt="DynamoDB Table"/>
 Should return table details.
 
 ## Testing State Locking
@@ -62,7 +68,9 @@ echo '{"ID":"test-lock","Operation":"apply","Who":"test@test.com","Created":"202
 ```bash
 terraform apply
 ```
-Should show lock error with details about who holds the lock.
+
+<img src="screenshots/lock-error.png" width="600" alt="Lock Error"/>
+Shows lock error with details about who holds the lock.
 
 ### Remove fake lock
 ```bash
