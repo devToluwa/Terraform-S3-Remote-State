@@ -34,6 +34,20 @@ With this setup:
 - **DynamoDB Table** - handles state locking (legacy approach, kept for reference)
 - **Backend Config** - uses modern `use_lockfile` for S3-native locking
 
+### Infrastructure Verification
+
+#### Remote State File in S3
+<img src="screenshots/s3-bucket.png" width="600" alt="S3 Bucket"/>
+*Displays the JSON state file contents inside the S3 bucket.*
+
+#### S3 State File Versioning
+<img src="screenshots/state-file-versioning.png" width="600" alt="State File Versioning"/>
+*Shows the full version history and backup tracking of the state file.*
+
+#### DynamoDB Table State Lock
+<img src="screenshots/dynamodb-table.png" width="600" alt="DynamoDB Table"/>
+*Returns the details and provisioning status of the DynamoDB lock table.*
+
 ## How to Use
 
 1. Clone this repo
@@ -51,6 +65,11 @@ echo '{"ID":"test","Operation":"apply","Who":"test@test.com","Created":"2024-01-
 ```
 
 Try to run `terraform apply` - it will fail with a lock error.
+
+### Terraform lock image
+<img src="screenshots/lock-error.png" width="600" alt="Lock Error"/>
+Shows lock error with details about who holds the lock.
+
 
 Remove the fake lock:
 ```bash
